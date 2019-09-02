@@ -3,8 +3,6 @@ defmodule DiscussWeb.TopicController do
   alias Discuss.Topic
   alias Discuss.Repo
 
-  import Ecto.Query
-
   def index(conn, _params) do
     # query  = from Topic
     # topics = Repo.all(query)
@@ -43,7 +41,7 @@ defmodule DiscussWeb.TopicController do
     render(conn, "edit.html", changeset: changeset, topic: topic)
   end
 
-  def update(conn, %{"id" => topic_id, "topic" => topic} = params) do
+  def update(conn, %{"id" => topic_id, "topic" => topic}) do
     # %{"title" => title} = topic
     old_topic = Repo.get(Topic, topic_id)
     changeset = Topic.changeset(old_topic, topic)
@@ -58,14 +56,15 @@ defmodule DiscussWeb.TopicController do
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset, topic: old_topic)
     end
-
   end
 
   def delete(conn, %{"id" => topic_id}) do
-    Repo.delete(Topic, topic_id)
+    Repo.get!(Topic, topic_id) |> Repo.delete!
+
     conn
-    |> put_flash(:info, "Updated successfully.")
-    |> redirect(to: Routes.topic_path(conn, :index))
+      |> put_flash(:info, "Delete successful :)")
+      |> redirect(to: Routes.topic_path(conn, :index))
+
   end
 
 end

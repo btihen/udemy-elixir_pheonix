@@ -7,7 +7,7 @@
 <table>
 <thead>
   <th>Discussion Topics</th>
-  <th colspan="2">Manage</th>
+  <th colspan="1">Manage</th>
 </thead>
   <%= for topic <- @topics do %>
   <tr>
@@ -15,8 +15,11 @@
       <b><%= link "#{topic.title}", to: Routes.topic_path(@conn, :show, topic.id) %></b> 
       (<%= topic.id %>)
     </td>
-    <td><%= link "Edit", to: Routes.topic_path(@conn, :edit, topic.id) %></td>
-    <td><%= link "Delete", to: Routes.topic_path(@conn, :delete, topic.id) %></td>
+    <td>
+      <%= link "Edit", to: Routes.topic_path(@conn, :edit, topic.id) %>
+      &nbsp;
+      <%= link "Delete", to: Routes.topic_path(@conn, :delete, topic.id), method: :delete, data: [confirm: "Are you sure?"] %>
+    </td>
   </tr>
   <% end %>
 </table>
