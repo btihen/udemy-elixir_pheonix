@@ -66,6 +66,8 @@ code -n .
 
 <!-- create db -->
 mix ecto.create
+ <!-- migrate db  -->
+mix ecto.migrate
 
 <!-- Start your Phoenix app for web usage -->
 mix phx.server

@@ -11,7 +11,7 @@ defmodule Discuss.Application do
       # Start the Ecto repository
       Discuss.Repo,
       # Start the endpoint when the application starts
-      DiscussWeb.Endpoint
+      DiscussWeb.Endpoint,
       # Starts a worker by calling: Discuss.Worker.start_link(arg)
       # {Discuss.Worker, arg},
     ]

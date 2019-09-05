@@ -13,6 +13,15 @@ defmodule DiscussWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/auth", DiscussWeb do
+    pipe_through :browser  # pre-processing
+
+    # /auth/github (uses strategy patter to pick provider)
+    get "/:provider", AuthController, :request  # predefined by oauth
+    # /auth/github/callback
+    get "/:provider/callback", AuthController, :callback
+  end
+
   scope "/", DiscussWeb do
     pipe_through :browser
 
