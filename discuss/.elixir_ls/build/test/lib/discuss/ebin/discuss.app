@@ -18,6 +18,7 @@
                         'Elixir.DiscussWeb.LayoutView',
                         'Elixir.DiscussWeb.PageController',
                         'Elixir.DiscussWeb.PageView',
+                        'Elixir.DiscussWeb.Plugs.SetCurrentUser',
                         'Elixir.DiscussWeb.Router',
                         'Elixir.DiscussWeb.Router (garaio-wti.locals in Konflikt stehende Kopie 2019-09-03)',
                         'Elixir.DiscussWeb.Router (wtihen\'s conflicted copy 2019-09-02)',

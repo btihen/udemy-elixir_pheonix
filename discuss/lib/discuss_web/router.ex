@@ -7,6 +7,7 @@ defmodule DiscussWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug DiscussWeb.Plugs.SetCurrentUser
   end
 
   pipeline :api do
@@ -15,6 +16,9 @@ defmodule DiscussWeb.Router do
 
   scope "/auth", DiscussWeb do
     pipe_through :browser  # pre-processing
+
+    # sometimes also a delete
+    get "/signout", AuthController, :signout
 
     # /auth/github (uses strategy patter to pick provider)
     get "/:provider", AuthController, :request  # predefined by oauth

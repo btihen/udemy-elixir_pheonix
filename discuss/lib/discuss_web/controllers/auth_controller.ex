@@ -33,6 +33,17 @@ defmodule DiscussWeb.AuthController do
     sign_in(conn, changeset)
   end
 
+  def signout(conn, _params) do
+    conn
+    |> configure_session(drop: true)  # drops all user info in connection
+    |> redirect(to: Routes.topic_path(conn, :index))
+    #
+    # |> put_session(:user_id, nil)
+    # |> put_session(:current_user, nil)
+    # |> configure_session(renew: true)
+    # |> redirect(to: Routes.topic_path(conn, :index))
+  end
+
   defp sign_in(conn, changeset) do
     case insert_or_update_user(changeset) do
       {:ok, user} ->
