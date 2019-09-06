@@ -3,6 +3,8 @@ defmodule DiscussWeb.TopicController do
   alias Discuss.Topic
   alias Discuss.Repo
 
+  plug DiscussWeb.Plugs.RequireSignIn when action in [:new, :create, :edit, :update, :delete]
+
   def index(conn, _params) do
     # IO.inspect(conn)
     # IO.inspect(conn.assigns)
