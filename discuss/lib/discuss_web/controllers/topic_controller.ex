@@ -4,6 +4,7 @@ defmodule DiscussWeb.TopicController do
   alias Discuss.Repo
 
   plug DiscussWeb.Plugs.RequireSignIn when action in [:new, :create, :edit, :update, :delete]
+  plug :check_post_owner when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
     # IO.inspect(conn)
@@ -26,10 +27,16 @@ defmodule DiscussWeb.TopicController do
   end
 
   def create(conn, %{"topic" => topic}) do
-    # %{"title" => title} = topic
-    changeset = Topic.changeset(%Topic{}, topic)
+    # create topic w/no association
+    # changeset = Topic.changeset(%Topic{}, topic)
+
+    # with association # -- conn.assigns[:user] or
+    changeset = conn.assigns.user #      to associate the topic with the user
+                |> Ecto.build_assoc(:topics)
+                |> Topic.changeset(topic)
+
     case Repo.insert(changeset) do
-      {:ok, _post} ->
+      {:ok, _topic} ->
         conn
         |> put_flash(:info, "Created successfully.")
         |> redirect(to: Routes.topic_path(conn, :index))        # render(conn, "index.html", topics: title)
@@ -66,9 +73,22 @@ defmodule DiscussWeb.TopicController do
     Repo.get!(Topic, topic_id) |> Repo.delete!
 
     conn
-      |> put_flash(:info, "Delete successful :)")
-      |> redirect(to: Routes.topic_path(conn, :index))
+    |> put_flash(:info, "Delete successful :)")
+    |> redirect(to: Routes.topic_path(conn, :index))
 
+  end
+
+  def check_post_owner(conn, _params) do
+    %{params: %{"id"=> topic_id}} = conn
+
+    if Repo.get(Topic, topic_id).user_id == conn.assigns.user.id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Ooops - action not allowed!")
+      |> redirect(to: Routes.topic_path(conn, :index))
+      |> halt()
+    end
   end
 
 end

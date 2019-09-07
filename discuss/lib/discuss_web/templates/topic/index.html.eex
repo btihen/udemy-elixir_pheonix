@@ -16,9 +16,12 @@
       (<%= topic.id %>)
     </td>
     <td>
-      <%= link "Edit", to: Routes.topic_path(@conn, :edit, topic.id) %>
-      &nbsp;
-      <%= link "Delete", to: Routes.topic_path(@conn, :delete, topic.id), method: :delete, data: [confirm: "Are you sure?"] %>
+
+      <%= if @conn.assigns.user.id == topic.user_id do %>
+        <%= link "Edit", to: Routes.topic_path(@conn, :edit, topic.id) %>
+        &nbsp;
+        <%= link "Delete", to: Routes.topic_path(@conn, :delete, topic.id), method: :delete, data: [confirm: "Are you sure?"] %>
+      <% end %>
     </td>
   </tr>
   <% end %>

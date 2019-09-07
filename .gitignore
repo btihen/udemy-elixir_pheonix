@@ -1,3 +1,4 @@
+./discuss/*
 ./discuss/_build
 ./discuss/_build/*
 ./discuss/.elixir_ls
