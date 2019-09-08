@@ -1,0 +1,16 @@
+<h3><%= @topic.title %></h3>
+
+<%# <button>ping</button> %>
+<div class="input-field">
+  <textarea class="textarea"></textarea>
+  <button class="btn">Add Comment</button>
+</div>
+<ul class="collection">
+  <%=  %>
+</ul>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    window.createSocket(<%= @topic.id %>)
+  });
+</script>
